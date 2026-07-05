@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestión de Taller — Empleados</title>
+<link rel="stylesheet" href="assets/css/lib/bootstrap/bootstrap.min.css">
+<link rel="stylesheet" href="assets/css/lib/bootstrap-icons/bootstrap-icons.min.css">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<div class="d-flex">
+
+    <div id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">GT</div>
+            <div>
+                <h6>Gestión de Taller</h6>
+                <small>Reparación de celulares</small>
+            </div>
+        </div>
+        <nav class="nav flex-column mt-2">
+            <a class="nav-link sidebar-link" href="index.html"><i class="bi bi-grid-1x2"></i>Dashboard</a>
+            <a class="nav-link sidebar-link" href="clientes.html"><i class="bi bi-people"></i>Clientes</a>
+            <a class="nav-link sidebar-link" href="ordenes.html"><i class="bi bi-clipboard2-check"></i>Órdenes</a>
+            <a class="nav-link sidebar-link" href="piezas.html"><i class="bi bi-cpu"></i>Piezas</a>
+            <a class="nav-link sidebar-link active" href="empleados.html"><i class="bi bi-person-badge"></i>Empleados</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="avatar">AR</div>
+            <div>
+                <div class="name">Andrea Ramírez</div>
+                <div class="role">Administrador</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-grow-1 d-flex flex-column min-vh-100" id="page-content">
+        <div class="topbar px-4 d-flex align-items-center">
+            <span class="fw-semibold">Sistema de Gestión de Taller de Celulares</span>
+        </div>
+        <div class="content-area">
+
+            <div class="page-title">Empleados</div>
+            <p class="page-subtitle">Personal del taller y sus credenciales de acceso</p>
+
+            <div class="table-card">
+                <div class="table-card-header">
+                    <h5>Listado de empleados</h5>
+                    <div class="d-flex gap-2 align-items-center">
+                        <div class="search-box">
+                            <i class="bi bi-search"></i>
+                            <input type="text" class="form-control form-control-sm" id="searchInput" placeholder="Buscar por nombre o cargo" style="width:220px">
+                        </div>
+                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#empleadoModal">
+                            <i class="bi bi-plus-lg"></i> Nuevo empleado
+                        </button>
+                    </div>
+                </div>
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th class="ps-4">Empleado</th>
+                            <th>Cédula</th>
+                            <th>Cargo</th>
+                            <th>Usuario</th>
+                            <th>Ingreso</th>
+                            <th class="pe-4 text-end">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                        <tr>
+                            <td class="ps-4">Andrea Ramírez</td>
+                            <td>402-1111111-1</td>
+                            <td><span class="badge-soft badge-info">Administrador</span></td>
+                            <td>aramirez</td>
+                            <td>10/01/2026</td>
+                            <td class="pe-4">
+                                <div class="row-actions">
+                                    <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#empleadoModal" title="Editar"><i class="bi bi-pencil"></i></button>
+                                    <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="ps-4">Esteban López</td>
+                            <td>402-2222222-2</td>
+                            <td><span class="badge-soft badge-success">Técnico</span></td>
+                            <td>elopez</td>
+                            <td>03/02/2026</td>
+                            <td class="pe-4">
+                                <div class="row-actions">
+                                    <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#empleadoModal" title="Editar"><i class="bi bi-pencil"></i></button>
+                                    <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="ps-4">Eithan Pérez</td>
+                            <td>402-3333333-3</td>
+                            <td><span class="badge-soft badge-success">Técnico</span></td>
+                            <td>eperez</td>
+                            <td>20/02/2026</td>
+                            <td class="pe-4">
+                                <div class="row-actions">
+                                    <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#empleadoModal" title="Editar"><i class="bi bi-pencil"></i></button>
+                                    <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="ps-4">Jean Sánchez</td>
+                            <td>402-4444444-4</td>
+                            <td><span class="badge-soft badge-warning">Recepcionista</span></td>
+                            <td>jsanchez</td>
+                            <td>01/03/2026</td>
+                            <td class="pe-4">
+                                <div class="row-actions">
+                                    <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#empleadoModal" title="Editar"><i class="bi bi-pencil"></i></button>
+                                    <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- Modal Empleado -->
+<div class="modal fade" id="empleadoModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="empleadoForm">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="empleadoModalTitle">Nuevo empleado</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="ID_Empleado">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <label class="form-label">Nombre *</label>
+                            <input type="text" class="form-control" id="Nombre" placeholder="Nombre" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">Apellido *</label>
+                            <input type="text" class="form-control" id="Apellido" placeholder="Apellido" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">Cédula *</label>
+                            <input type="text" class="form-control" id="Cedula" placeholder="000-0000000-0" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">Cargo *</label>
+                            <select class="form-select" id="Cargo" required>
+                                <option>Administrador</option>
+                                <option>Técnico</option>
+                                <option>Recepcionista</option>
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">Usuario *</label>
+                            <input type="text" class="form-control" id="Usuario" placeholder="usuario" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">Contraseña <span id="passHint">*</span></label>
+                            <input type="password" class="form-control" id="Contrasena" placeholder="••••••••">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar empleado</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="assets/js/lib/bootstrap/bootstrap.bundle.min.js"></script>
+<script src="assets/js/api.js"></script>
+<script>
+    const tbody = document.getElementById("tbody");
+    const empleadoModalEl = document.getElementById("empleadoModal");
+    const empleadoModal = new bootstrap.Modal(empleadoModalEl);
+    const empleadoForm = document.getElementById("empleadoForm");
+    let empleadosCache = [];
+
+    const badgeCargo = (cargo) => {
+        const map = { "Administrador": "badge-info", "Técnico": "badge-success", "Recepcionista": "badge-warning" };
+        return `<span class="badge-soft ${map[cargo] || "badge-secondary"}">${cargo || "—"}</span>`;
+    };
+
+    function renderEmpleados(empleados) {
+        tbody.innerHTML = "";
+        empleados.forEach(emp => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td class="ps-4">${emp.Nombre} ${emp.Apellido}</td>
+                <td>${emp.Cedula}</td>
+                <td>${badgeCargo(emp.Cargo)}</td>
+                <td>${emp.Usuario}</td>
+                <td>${formatFecha(emp.FechaRegistro)}</td>
+                <td class="pe-4">
+                    <div class="row-actions">
+                        <button class="btn btn-sm btn-outline-secondary btn-editar" data-id="${emp.ID_Empleado}" title="Editar"><i class="bi bi-pencil"></i></button>
+                        <button class="btn btn-sm btn-outline-danger btn-eliminar" data-id="${emp.ID_Empleado}" title="Eliminar"><i class="bi bi-trash"></i></button>
+                    </div>
+                </td>`;
+            tbody.appendChild(tr);
+        });
+    }
+
+    async function cargarEmpleados() {
+        try {
+            empleadosCache = await api.get("/empleados");
+            renderEmpleados(empleadosCache);
+        } catch (err) {
+            mostrarError(err);
+        }
+    }
+
+    document.getElementById("searchInput").addEventListener("input", (e) => {
+        const q = e.target.value.trim().toLowerCase();
+        renderEmpleados(empleadosCache.filter(emp =>
+            `${emp.Nombre} ${emp.Apellido} ${emp.Cargo || ""}`.toLowerCase().includes(q)
+        ));
+    });
+
+    document.querySelector('[data-bs-target="#empleadoModal"]').addEventListener("click", () => {
+        empleadoForm.reset();
+        document.getElementById("ID_Empleado").value = "";
+        document.getElementById("empleadoModalTitle").textContent = "Nuevo empleado";
+        document.getElementById("Contrasena").required = true;
+        document.getElementById("passHint").textContent = "*";
+    });
+
+    tbody.addEventListener("click", async (e) => {
+        const editBtn = e.target.closest(".btn-editar");
+        const delBtn = e.target.closest(".btn-eliminar");
+
+        if (editBtn) {
+            const id = editBtn.dataset.id;
+            const emp = empleadosCache.find(x => x.ID_Empleado == id);
+            if (!emp) return;
+            document.getElementById("ID_Empleado").value = emp.ID_Empleado;
+            document.getElementById("Nombre").value = emp.Nombre;
+            document.getElementById("Apellido").value = emp.Apellido;
+            document.getElementById("Cedula").value = emp.Cedula;
+            document.getElementById("Cargo").value = emp.Cargo || "Técnico";
+            document.getElementById("Usuario").value = emp.Usuario;
+            document.getElementById("Contrasena").value = "";
+            document.getElementById("Contrasena").required = false;
+            document.getElementById("passHint").textContent = "(dejar en blanco para no cambiarla)";
+            document.getElementById("empleadoModalTitle").textContent = "Editar empleado";
+            empleadoModal.show();
+        }
+
+        if (delBtn) {
+            if (!confirm("¿Eliminar este empleado?")) return;
+            try {
+                await api.delete(`/empleados/${delBtn.dataset.id}`);
+                await cargarEmpleados();
+            } catch (err) {
+                mostrarError(err);
+            }
+        }
+    });
+
+    empleadoForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const id = document.getElementById("ID_Empleado").value;
+        const data = {
+            Nombre: document.getElementById("Nombre").value,
+            Apellido: document.getElementById("Apellido").value,
+            Cedula: document.getElementById("Cedula").value,
+            Cargo: document.getElementById("Cargo").value,
+            Usuario: document.getElementById("Usuario").value,
+            Contrasena: document.getElementById("Contrasena").value
+        };
+        try {
+            if (id) {
+                if (!data.Contrasena) delete data.Contrasena;
+                await api.put(`/empleados/${id}`, data);
+            } else {
+                await api.post("/empleados", data);
+            }
+            empleadoModal.hide();
+            await cargarEmpleados();
+        } catch (err) {
+            mostrarError(err);
+        }
+    });
+
+    cargarEmpleados();
+</script>
+</body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestión de Taller — Piezas</title>
+<link rel="stylesheet" href="assets/css/lib/bootstrap/bootstrap.min.css">
+<link rel="stylesheet" href="assets/css/lib/bootstrap-icons/bootstrap-icons.min.css">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<div class="d-flex">
+
+    <div id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">GT</div>
+            <div>
+                <h6>Gestión de Taller</h6>
+                <small>Reparación de celulares</small>
+            </div>
+        </div>
+        <nav class="nav flex-column mt-2">
+            <a class="nav-link sidebar-link" href="index.html"><i class="bi bi-grid-1x2"></i>Dashboard</a>
+            <a class="nav-link sidebar-link" href="clientes.html"><i class="bi bi-people"></i>Clientes</a>
+            <a class="nav-link sidebar-link" href="ordenes.html"><i class="bi bi-clipboard2-check"></i>Órdenes</a>
+            <a class="nav-link sidebar-link active" href="piezas.html"><i class="bi bi-cpu"></i>Piezas</a>
+            <a class="nav-link sidebar-link" href="empleados.html"><i class="bi bi-person-badge"></i>Empleados</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="avatar">AR</div>
+            <div>
+                <div class="name">Andrea Ramírez</div>
+                <div class="role">Administrador</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-grow-1 d-flex flex-column min-vh-100" id="page-content">
+        <div class="topbar px-4 d-flex align-items-center">
+            <span class="fw-semibold">Sistema de Gestión de Taller de Celulares</span>
+        </div>
+        <div class="content-area">
+
+            <div class="page-title">Piezas e inventario</div>
+            <p class="page-subtitle">Stock de componentes disponibles para reparaciones</p>
+
+            <div class="table-card">
+                <div class="table-card-header">
+                    <h5>Listado de piezas</h5>
+                    <div class="d-flex gap-2 align-items-center">
+                        <div class="search-box">
+                            <i class="bi bi-search"></i>
+                            <input type="text" class="form-control form-control-sm" id="searchInput" placeholder="Buscar por nombre o marca" style="width:220px">
+                        </div>
+                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#piezaModal">
+                            <i class="bi bi-plus-lg"></i> Nueva pieza
+                        </button>
+                    </div>
+                </div>
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th class="ps-4">Pieza</th>
+                            <th>Marca</th>
+                            <th>Sistema</th>
+                            <th>Precio</th>
+                            <th>Stock</th>
+                            <th class="pe-4 text-end">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                        <tr>
+                            <td class="ps-4">Pantalla iPhone 12</td>
+                            <td>Apple</td>
+                            <td>iOS</td>
+                            <td>RD$ 3,500</td>
+                            <td><span class="badge-soft badge-success">8</span></td>
+                            <td class="pe-4">
+                                <div class="row-actions">
+                                    <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#piezaModal" title="Editar"><i class="bi bi-pencil"></i></button>
+                                    <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="ps-4">Batería Galaxy S21</td>
+                            <td>Samsung</td>
+                            <td>Android</td>
+                            <td>RD$ 1,200</td>
+                            <td><span class="badge-soft badge-danger">3 — bajo</span></td>
+                            <td class="pe-4">
+                                <div class="row-actions">
+                                    <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#piezaModal" title="Editar"><i class="bi bi-pencil"></i></button>
+                                    <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="ps-4">Conector de carga tipo C</td>
+                            <td>Genérico</td>
+                            <td>Android</td>
+                            <td>RD$ 350</td>
+                            <td><span class="badge-soft badge-success">25</span></td>
+                            <td class="pe-4">
+                                <div class="row-actions">
+                                    <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#piezaModal" title="Editar"><i class="bi bi-pencil"></i></button>
+                                    <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="ps-4">Pantalla Redmi Note 11</td>
+                            <td>Xiaomi</td>
+                            <td>Android</td>
+                            <td>RD$ 2,200</td>
+                            <td><span class="badge-soft badge-danger">1 — bajo</span></td>
+                            <td class="pe-4">
+                                <div class="row-actions">
+                                    <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#piezaModal" title="Editar"><i class="bi bi-pencil"></i></button>
+                                    <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- Modal Pieza -->
+<div class="modal fade" id="piezaModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="piezaForm">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="piezaModalTitle">Nueva pieza</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="ID_Pieza">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label">Nombre *</label>
+                            <input type="text" class="form-control" id="Nombre" placeholder="Ej. Pantalla iPhone 13" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">Marca</label>
+                            <input type="text" class="form-control" id="Marca" placeholder="Ej. Apple">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">Sistema</label>
+                            <select class="form-select" id="Sistema">
+                                <option>Android</option>
+                                <option>iOS</option>
+                                <option>N/A</option>
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">Color</label>
+                            <input type="text" class="form-control" id="Color" placeholder="Opcional">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">Descripción</label>
+                            <input type="text" class="form-control" id="Descripcion" placeholder="Opcional">
+                        </div>
+                        <div class="col-4">
+                            <label class="form-label">Precio (RD$) *</label>
+                            <input type="number" min="0" step="0.01" class="form-control" id="PrecioUnitario" placeholder="0" required>
+                        </div>
+                        <div class="col-4">
+                            <label class="form-label">Stock *</label>
+                            <input type="number" min="0" class="form-control" id="Cantidad" placeholder="0" required>
+                        </div>
+                        <div class="col-4">
+                            <label class="form-label">Demanda *</label>
+                            <select class="form-select" id="Demanda" required>
+                                <option value="Alta">Alta</option>
+                                <option value="Media" selected>Media</option>
+                                <option value="Baja">Baja</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar pieza</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="assets/js/lib/bootstrap/bootstrap.bundle.min.js"></script>
+<script src="assets/js/api.js"></script>
+<script>
+    const tbody = document.getElementById("tbody");
+    const piezaModalEl = document.getElementById("piezaModal");
+    const piezaModal = new bootstrap.Modal(piezaModalEl);
+    const piezaForm = document.getElementById("piezaForm");
+    let piezasCache = [];
+
+    function badgeStock(cantidad) {
+        const c = cantidad ?? 0;
+        if (c <= 3) return `<span class="badge-soft badge-danger">${c} — bajo</span>`;
+        return `<span class="badge-soft badge-success">${c}</span>`;
+    }
+
+    function renderPiezas(piezas) {
+        tbody.innerHTML = "";
+        piezas.forEach(p => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td class="ps-4">${p.Nombre}</td>
+                <td>${p.Marca || "—"}</td>
+                <td>${p.Sistema || "—"}</td>
+                <td>RD$ ${Number(p.PrecioUnitario).toLocaleString("es-DO")}</td>
+                <td>${badgeStock(p.Cantidad)}</td>
+                <td class="pe-4">
+                    <div class="row-actions">
+                        <button class="btn btn-sm btn-outline-secondary btn-editar" data-id="${p.ID_Pieza}" title="Editar"><i class="bi bi-pencil"></i></button>
+                        <button class="btn btn-sm btn-outline-danger btn-eliminar" data-id="${p.ID_Pieza}" title="Eliminar"><i class="bi bi-trash"></i></button>
+                    </div>
+                </td>`;
+            tbody.appendChild(tr);
+        });
+    }
+
+    async function cargarPiezas() {
+        try {
+            piezasCache = await api.get("/piezas");
+            renderPiezas(piezasCache);
+        } catch (err) {
+            mostrarError(err);
+        }
+    }
+
+    document.getElementById("searchInput").addEventListener("input", (e) => {
+        const q = e.target.value.trim().toLowerCase();
+        renderPiezas(piezasCache.filter(p =>
+            `${p.Nombre} ${p.Marca || ""}`.toLowerCase().includes(q)
+        ));
+    });
+
+    document.querySelector('[data-bs-target="#piezaModal"]').addEventListener("click", () => {
+        piezaForm.reset();
+        document.getElementById("ID_Pieza").value = "";
+        document.getElementById("piezaModalTitle").textContent = "Nueva pieza";
+    });
+
+    tbody.addEventListener("click", async (e) => {
+        const editBtn = e.target.closest(".btn-editar");
+        const delBtn = e.target.closest(".btn-eliminar");
+
+        if (editBtn) {
+            const id = editBtn.dataset.id;
+            const p = piezasCache.find(x => x.ID_Pieza == id);
+            if (!p) return;
+            document.getElementById("ID_Pieza").value = p.ID_Pieza;
+            document.getElementById("Nombre").value = p.Nombre;
+            document.getElementById("Marca").value = p.Marca || "";
+            document.getElementById("Sistema").value = p.Sistema || "N/A";
+            document.getElementById("Color").value = p.Color || "";
+            document.getElementById("Descripcion").value = p.Descripcion || "";
+            document.getElementById("PrecioUnitario").value = p.PrecioUnitario;
+            document.getElementById("Cantidad").value = p.Cantidad ?? 0;
+            document.getElementById("Demanda").value = p.Demanda || "Media";
+            document.getElementById("piezaModalTitle").textContent = "Editar pieza";
+            piezaModal.show();
+        }
+
+        if (delBtn) {
+            if (!confirm("¿Eliminar esta pieza?")) return;
+            try {
+                await api.delete(`/piezas/${delBtn.dataset.id}`);
+                await cargarPiezas();
+            } catch (err) {
+                mostrarError(err);
+            }
+        }
+    });
+
+    piezaForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const id = document.getElementById("ID_Pieza").value;
+        const data = {
+            Nombre: document.getElementById("Nombre").value,
+            Marca: document.getElementById("Marca").value,
+            Sistema: document.getElementById("Sistema").value,
+            Color: document.getElementById("Color").value,
+            Descripcion: document.getElementById("Descripcion").value,
+            PrecioUnitario: parseFloat(document.getElementById("PrecioUnitario").value),
+            Cantidad: parseInt(document.getElementById("Cantidad").value, 10),
+            Demanda: document.getElementById("Demanda").value
+        };
+        try {
+            if (id) {
+                await api.put(`/piezas/${id}`, data);
+            } else {
+                await api.post("/piezas", data);
+            }
+            piezaModal.hide();
+            await cargarPiezas();
+        } catch (err) {
+            mostrarError(err);
+        }
+    });
+
+    cargarPiezas();
+</script>
+</body>
+</html>

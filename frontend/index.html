@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestión de Taller — Dashboard</title>
+<link rel="stylesheet" href="assets/css/lib/bootstrap/bootstrap.min.css">
+<link rel="stylesheet" href="assets/css/lib/bootstrap-icons/bootstrap-icons.min.css">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<div class="d-flex">
+
+    <div id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">GT</div>
+            <div>
+                <h6>Gestión de Taller</h6>
+                <small>Reparación de celulares</small>
+            </div>
+        </div>
+        <nav class="nav flex-column mt-2">
+            <a class="nav-link sidebar-link active" href="index.html"><i class="bi bi-grid-1x2"></i>Dashboard</a>
+            <a class="nav-link sidebar-link" href="clientes.html"><i class="bi bi-people"></i>Clientes</a>
+            <a class="nav-link sidebar-link" href="ordenes.html"><i class="bi bi-clipboard2-check"></i>Órdenes</a>
+            <a class="nav-link sidebar-link" href="piezas.html"><i class="bi bi-cpu"></i>Piezas</a>
+            <a class="nav-link sidebar-link" href="empleados.html"><i class="bi bi-person-badge"></i>Empleados</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="avatar">AR</div>
+            <div>
+                <div class="name">Andrea Ramírez</div>
+                <div class="role">Administrador</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-grow-1 d-flex flex-column min-vh-100" id="page-content">
+        <div class="topbar px-4 d-flex align-items-center">
+            <span class="fw-semibold">Sistema de Gestión de Taller de Celulares</span>
+        </div>
+        <div class="content-area">
+
+            <div class="page-title">Dashboard</div>
+            <p class="page-subtitle">Resumen general del taller</p>
+
+            <div class="row g-3 mb-4">
+                <div class="col-6 col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background:#e6f1fb;color:#185fa5"><i class="bi bi-people"></i></div>
+                        <div>
+                            <div class="stat-number">128</div>
+                            <div class="stat-label">Clientes</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background:#fff3d6;color:#8a5a00"><i class="bi bi-clipboard2-check"></i></div>
+                        <div>
+                            <div class="stat-number">34</div>
+                            <div class="stat-label">Órdenes activas</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background:#e6f6ec;color:#1a7d3b"><i class="bi bi-person-badge"></i></div>
+                        <div>
+                            <div class="stat-number">4</div>
+                            <div class="stat-label">Empleados</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background:#fdecec;color:#b3261e"><i class="bi bi-exclamation-triangle"></i></div>
+                        <div>
+                            <div class="stat-number">2</div>
+                            <div class="stat-label">Piezas con bajo stock</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-card">
+                <div class="table-card-header">
+                    <h5>Órdenes recientes</h5>
+                    <a href="ordenes.html" class="btn btn-sm" style="background:var(--accent-bg);color:var(--accent-dark)">Ver todas</a>
+                </div>
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th class="ps-4">Orden</th>
+                            <th>Cliente</th>
+                            <th>Dispositivo</th>
+                            <th>Técnico</th>
+                            <th>Fecha</th>
+                            <th class="pe-4">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="ps-4 text-muted">#207</td>
+                            <td>Marisol Peña</td>
+                            <td>iPhone 8</td>
+                            <td>Eithan Pérez</td>
+                            <td>02/07/2026</td>
+                            <td class="pe-4"><span class="badge-soft badge-warning">Esperando piezas</span></td>
+                        </tr>
+                        <tr>
+                            <td class="ps-4 text-muted">#206</td>
+                            <td>Carla Reyes</td>
+                            <td>Redmi Note 11</td>
+                            <td>Esteban López</td>
+                            <td>03/07/2026</td>
+                            <td class="pe-4"><span class="badge-soft badge-secondary">En revisión</span></td>
+                        </tr>
+                        <tr>
+                            <td class="ps-4 text-muted">#205</td>
+                            <td>Luis Ortega</td>
+                            <td>Galaxy S21</td>
+                            <td>Eithan Pérez</td>
+                            <td>29/06/2026</td>
+                            <td class="pe-4"><span class="badge-soft badge-success">Reparado</span></td>
+                        </tr>
+                        <tr>
+                            <td class="ps-4 text-muted">#204</td>
+                            <td>Marisol Peña</td>
+                            <td>iPhone 12</td>
+                            <td>Esteban López</td>
+                            <td>01/07/2026</td>
+                            <td class="pe-4"><span class="badge-soft badge-info">En reparación</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

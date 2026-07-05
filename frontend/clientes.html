@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestión de Taller — Clientes</title>
+<link rel="stylesheet" href="assets/css/lib/bootstrap/bootstrap.min.css">
+<link rel="stylesheet" href="assets/css/lib/bootstrap-icons/bootstrap-icons.min.css">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<div class="d-flex">
+
+    <div id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">GT</div>
+            <div>
+                <h6>Gestión de Taller</h6>
+                <small>Reparación de celulares</small>
+            </div>
+        </div>
+        <nav class="nav flex-column mt-2">
+            <a class="nav-link sidebar-link" href="index.html"><i class="bi bi-grid-1x2"></i>Dashboard</a>
+            <a class="nav-link sidebar-link active" href="clientes.html"><i class="bi bi-people"></i>Clientes</a>
+            <a class="nav-link sidebar-link" href="ordenes.html"><i class="bi bi-clipboard2-check"></i>Órdenes</a>
+            <a class="nav-link sidebar-link" href="piezas.html"><i class="bi bi-cpu"></i>Piezas</a>
+            <a class="nav-link sidebar-link" href="empleados.html"><i class="bi bi-person-badge"></i>Empleados</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="avatar">AR</div>
+            <div>
+                <div class="name">Andrea Ramírez</div>
+                <div class="role">Administrador</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-grow-1 d-flex flex-column min-vh-100" id="page-content">
+        <div class="topbar px-4 d-flex align-items-center">
+            <span class="fw-semibold">Sistema de Gestión de Taller de Celulares</span>
+        </div>
+        <div class="content-area">
+
+            <div class="page-title">Clientes</div>
+            <p class="page-subtitle">Registro y consulta de clientes del taller</p>
+
+            <div class="table-card">
+                <div class="table-card-header">
+                    <h5>Listado de clientes</h5>
+                    <div class="d-flex gap-2 align-items-center">
+                        <div class="search-box">
+                            <i class="bi bi-search"></i>
+                            <input type="text" class="form-control form-control-sm" id="searchInput" placeholder="Buscar por nombre o cédula" style="width:220px">
+                        </div>
+                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#clienteModal">
+                            <i class="bi bi-plus-lg"></i> Nuevo cliente
+                        </button>
+                    </div>
+                </div>
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th class="ps-4">Cliente</th>
+                            <th>Cédula</th>
+                            <th>Correo</th>
+                            <th>Teléfono</th>
+                            <th>Registrado</th>
+                            <th class="pe-4 text-end">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                        <tr>
+                            <td class="ps-4">Marisol Peña</td>
+                            <td>402-1234567-8</td>
+                            <td>marisol.pena@mail.com</td>
+                            <td>809-555-0110</td>
+                            <td>02/05/2026</td>
+                            <td class="pe-4">
+                                <div class="row-actions">
+                                    <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#clienteModal" title="Editar"><i class="bi bi-pencil"></i></button>
+                                    <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="ps-4">Luis Ortega</td>
+                            <td>402-7654321-2</td>
+                            <td>luis.ortega@mail.com</td>
+                            <td>809-555-0144</td>
+                            <td>14/05/2026</td>
+                            <td class="pe-4">
+                                <div class="row-actions">
+                                    <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#clienteModal" title="Editar"><i class="bi bi-pencil"></i></button>
+                                    <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="ps-4">Carla Reyes</td>
+                            <td>402-9988776-1</td>
+                            <td>carla.reyes@mail.com</td>
+                            <td>—</td>
+                            <td>01/06/2026</td>
+                            <td class="pe-4">
+                                <div class="row-actions">
+                                    <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#clienteModal" title="Editar"><i class="bi bi-pencil"></i></button>
+                                    <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- Modal Cliente -->
+<div class="modal fade" id="clienteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="clienteForm">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="clienteModalTitle">Nuevo cliente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="ID_Cliente">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <label class="form-label">Nombre *</label>
+                            <input type="text" class="form-control" id="Nombre" placeholder="Marisol" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">Apellido *</label>
+                            <input type="text" class="form-control" id="Apellido" placeholder="Peña" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">Cédula *</label>
+                            <input type="text" class="form-control" id="Cedula" placeholder="000-0000000-0" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">Correo</label>
+                            <input type="email" class="form-control" id="Correo" placeholder="correo@mail.com">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">Teléfono</label>
+                            <input type="text" class="form-control" id="Telefono" placeholder="809-000-0000">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">Dirección</label>
+                            <input type="text" class="form-control" id="Direccion" placeholder="Opcional">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar cliente</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="assets/js/lib/bootstrap/bootstrap.bundle.min.js"></script>
+<script src="assets/js/api.js"></script>
+<script>
+    const tbody = document.getElementById("tbody");
+    const clienteModalEl = document.getElementById("clienteModal");
+    const clienteModal = new bootstrap.Modal(clienteModalEl);
+    const clienteForm = document.getElementById("clienteForm");
+    let clientesCache = [];
+
+    function renderClientes(clientes) {
+        tbody.innerHTML = "";
+        clientes.forEach(c => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td class="ps-4">${c.Nombre} ${c.Apellido}</td>
+                <td>${c.Cedula}</td>
+                <td>${c.Correo || "—"}</td>
+                <td>${c.Telefono || "—"}</td>
+                <td>${formatFecha(c.FechaRegistro)}</td>
+                <td class="pe-4">
+                    <div class="row-actions">
+                        <button class="btn btn-sm btn-outline-secondary btn-editar" data-id="${c.ID_Cliente}" title="Editar"><i class="bi bi-pencil"></i></button>
+                        <button class="btn btn-sm btn-outline-danger btn-eliminar" data-id="${c.ID_Cliente}" title="Eliminar"><i class="bi bi-trash"></i></button>
+                    </div>
+                </td>`;
+            tbody.appendChild(tr);
+        });
+    }
+
+    async function cargarClientes() {
+        try {
+            clientesCache = await api.get("/clientes");
+            renderClientes(clientesCache);
+        } catch (err) {
+            mostrarError(err);
+        }
+    }
+
+    document.getElementById("searchInput").addEventListener("input", (e) => {
+        const q = e.target.value.trim().toLowerCase();
+        renderClientes(clientesCache.filter(c =>
+            `${c.Nombre} ${c.Apellido} ${c.Cedula}`.toLowerCase().includes(q)
+        ));
+    });
+
+    document.querySelector('[data-bs-target="#clienteModal"]').addEventListener("click", () => {
+        clienteForm.reset();
+        document.getElementById("ID_Cliente").value = "";
+        document.getElementById("clienteModalTitle").textContent = "Nuevo cliente";
+    });
+
+    tbody.addEventListener("click", async (e) => {
+        const editBtn = e.target.closest(".btn-editar");
+        const delBtn = e.target.closest(".btn-eliminar");
+
+        if (editBtn) {
+            const id = editBtn.dataset.id;
+            const c = clientesCache.find(x => x.ID_Cliente == id);
+            if (!c) return;
+            document.getElementById("ID_Cliente").value = c.ID_Cliente;
+            document.getElementById("Nombre").value = c.Nombre;
+            document.getElementById("Apellido").value = c.Apellido;
+            document.getElementById("Cedula").value = c.Cedula;
+            document.getElementById("Correo").value = c.Correo || "";
+            document.getElementById("Telefono").value = c.Telefono || "";
+            document.getElementById("Direccion").value = c.Direccion || "";
+            document.getElementById("clienteModalTitle").textContent = "Editar cliente";
+            clienteModal.show();
+        }
+
+        if (delBtn) {
+            if (!confirm("¿Eliminar este cliente?")) return;
+            try {
+                await api.delete(`/clientes/${delBtn.dataset.id}`);
+                await cargarClientes();
+            } catch (err) {
+                mostrarError(err);
+            }
+        }
+    });
+
+    clienteForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const id = document.getElementById("ID_Cliente").value;
+        const data = {
+            Nombre: document.getElementById("Nombre").value,
+            Apellido: document.getElementById("Apellido").value,
+            Cedula: document.getElementById("Cedula").value,
+            Correo: document.getElementById("Correo").value,
+            Telefono: document.getElementById("Telefono").value,
+            Direccion: document.getElementById("Direccion").value
+        };
+        try {
+            if (id) {
+                await api.put(`/clientes/${id}`, data);
+            } else {
+                await api.post("/clientes", data);
+            }
+            clienteModal.hide();
+            await cargarClientes();
+        } catch (err) {
+            mostrarError(err);
+        }
+    });
+
+    cargarClientes();
+</script>
+</body>
+</html>
