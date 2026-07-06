@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
+<script>if(!localStorage.getItem("token")){window.location.href="login.html";}</script>
 <div class="d-flex">
 
     <div id="sidebar">
@@ -27,11 +28,14 @@
             <a class="nav-link sidebar-link" href="empleados.html"><i class="bi bi-person-badge"></i>Empleados</a>
         </nav>
         <div class="sidebar-footer">
-            <div class="avatar">AR</div>
+            <div class="avatar" id="sidebarAvatar">--</div>
             <div>
-                <div class="name">Andrea Ramírez</div>
-                <div class="role">Administrador</div>
+                <div class="name" id="sidebarNombre">Cargando...</div>
+                <div class="role" id="sidebarCargo"></div>
             </div>
+            <button id="btnLogout" class="btn btn-sm btn-link text-danger ms-auto" title="Cerrar sesión">
+                <i class="bi bi-box-arrow-right"></i>
+            </button>
         </div>
     </div>
 
@@ -74,64 +78,7 @@
                             <th class="pe-4 text-end">Acciones</th>
                         </tr>
                     </thead>
-                    <tbody id="tbody">
-                        <tr data-estado="Esperando piezas">
-                            <td class="ps-4 text-muted">#207</td>
-                            <td>Marisol Peña</td>
-                            <td>iPhone 8</td>
-                            <td>Eithan Pérez</td>
-                            <td>02/07/2026</td>
-                            <td><span class="badge-soft badge-warning">Esperando piezas</span></td>
-                            <td class="pe-4">
-                                <div class="row-actions">
-                                    <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#ordenModal" title="Editar"><i class="bi bi-pencil"></i></button>
-                                    <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr data-estado="En revisión">
-                            <td class="ps-4 text-muted">#206</td>
-                            <td>Carla Reyes</td>
-                            <td>Redmi Note 11</td>
-                            <td>Esteban López</td>
-                            <td>03/07/2026</td>
-                            <td><span class="badge-soft badge-secondary">En revisión</span></td>
-                            <td class="pe-4">
-                                <div class="row-actions">
-                                    <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#ordenModal" title="Editar"><i class="bi bi-pencil"></i></button>
-                                    <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr data-estado="Reparado">
-                            <td class="ps-4 text-muted">#205</td>
-                            <td>Luis Ortega</td>
-                            <td>Galaxy S21</td>
-                            <td>Eithan Pérez</td>
-                            <td>29/06/2026</td>
-                            <td><span class="badge-soft badge-success">Reparado</span></td>
-                            <td class="pe-4">
-                                <div class="row-actions">
-                                    <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#ordenModal" title="Editar"><i class="bi bi-pencil"></i></button>
-                                    <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr data-estado="En reparación">
-                            <td class="ps-4 text-muted">#204</td>
-                            <td>Marisol Peña</td>
-                            <td>iPhone 12</td>
-                            <td>Esteban López</td>
-                            <td>01/07/2026</td>
-                            <td><span class="badge-soft badge-info">En reparación</span></td>
-                            <td class="pe-4">
-                                <div class="row-actions">
-                                    <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#ordenModal" title="Editar"><i class="bi bi-pencil"></i></button>
-                                    <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
+                    <tbody id="tbody"></tbody>
                 </table>
             </div>
 
@@ -193,7 +140,20 @@
 <script src="assets/js/lib/bootstrap/bootstrap.bundle.min.js"></script>
 <script src="assets/js/api.js"></script>
 <script>
+    (function () {
+        const empleado = getEmpleadoActual();
+        if (empleado) {
+            const iniciales = (empleado.nombre || "??").split(" ").map(p => p[0]).slice(0,2).join("").toUpperCase();
+            document.getElementById("sidebarAvatar").textContent = iniciales;
+            document.getElementById("sidebarNombre").textContent = empleado.nombre;
+            document.getElementById("sidebarCargo").textContent = empleado.cargo || "";
+        }
+        document.getElementById("btnLogout").addEventListener("click", logout);
+    })();
+</script>
+<script>
     const tbody = document.getElementById("tbody");
+    tbody.innerHTML = '<tr><td colspan="7" class="text-center text-muted py-4">Cargando órdenes...</td></tr>';
     const ordenModalEl = document.getElementById("ordenModal");
     const ordenModal = new bootstrap.Modal(ordenModalEl);
     const ordenForm = document.getElementById("ordenForm");
@@ -272,6 +232,7 @@
             llenarSelects();
             renderOrdenes();
         } catch (err) {
+            tbody.innerHTML = '<tr><td colspan="7" class="text-center text-danger py-4">No se pudieron cargar las órdenes.</td></tr>';
             mostrarError(err);
         }
     }

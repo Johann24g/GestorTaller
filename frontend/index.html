@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
+<script>if(!localStorage.getItem("token")){window.location.href="login.html";}</script>
 <div class="d-flex">
 
     <div id="sidebar">
@@ -27,11 +28,14 @@
             <a class="nav-link sidebar-link" href="empleados.html"><i class="bi bi-person-badge"></i>Empleados</a>
         </nav>
         <div class="sidebar-footer">
-            <div class="avatar">AR</div>
+            <div class="avatar" id="sidebarAvatar">--</div>
             <div>
-                <div class="name">Andrea Ramírez</div>
-                <div class="role">Administrador</div>
+                <div class="name" id="sidebarNombre">Cargando...</div>
+                <div class="role" id="sidebarCargo"></div>
             </div>
+            <button id="btnLogout" class="btn btn-sm btn-link text-danger ms-auto" title="Cerrar sesión">
+                <i class="bi bi-box-arrow-right"></i>
+            </button>
         </div>
     </div>
 
@@ -49,7 +53,7 @@
                     <div class="stat-card">
                         <div class="stat-icon" style="background:#e6f1fb;color:#185fa5"><i class="bi bi-people"></i></div>
                         <div>
-                            <div class="stat-number">128</div>
+                            <div class="stat-number" id="statClientes">—</div>
                             <div class="stat-label">Clientes</div>
                         </div>
                     </div>
@@ -58,7 +62,7 @@
                     <div class="stat-card">
                         <div class="stat-icon" style="background:#fff3d6;color:#8a5a00"><i class="bi bi-clipboard2-check"></i></div>
                         <div>
-                            <div class="stat-number">34</div>
+                            <div class="stat-number" id="statOrdenesActivas">—</div>
                             <div class="stat-label">Órdenes activas</div>
                         </div>
                     </div>
@@ -67,7 +71,7 @@
                     <div class="stat-card">
                         <div class="stat-icon" style="background:#e6f6ec;color:#1a7d3b"><i class="bi bi-person-badge"></i></div>
                         <div>
-                            <div class="stat-number">4</div>
+                            <div class="stat-number" id="statEmpleados">—</div>
                             <div class="stat-label">Empleados</div>
                         </div>
                     </div>
@@ -76,7 +80,7 @@
                     <div class="stat-card">
                         <div class="stat-icon" style="background:#fdecec;color:#b3261e"><i class="bi bi-exclamation-triangle"></i></div>
                         <div>
-                            <div class="stat-number">2</div>
+                            <div class="stat-number" id="statBajoStock">—</div>
                             <div class="stat-label">Piezas con bajo stock</div>
                         </div>
                     </div>
@@ -99,39 +103,8 @@
                             <th class="pe-4">Estado</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td class="ps-4 text-muted">#207</td>
-                            <td>Marisol Peña</td>
-                            <td>iPhone 8</td>
-                            <td>Eithan Pérez</td>
-                            <td>02/07/2026</td>
-                            <td class="pe-4"><span class="badge-soft badge-warning">Esperando piezas</span></td>
-                        </tr>
-                        <tr>
-                            <td class="ps-4 text-muted">#206</td>
-                            <td>Carla Reyes</td>
-                            <td>Redmi Note 11</td>
-                            <td>Esteban López</td>
-                            <td>03/07/2026</td>
-                            <td class="pe-4"><span class="badge-soft badge-secondary">En revisión</span></td>
-                        </tr>
-                        <tr>
-                            <td class="ps-4 text-muted">#205</td>
-                            <td>Luis Ortega</td>
-                            <td>Galaxy S21</td>
-                            <td>Eithan Pérez</td>
-                            <td>29/06/2026</td>
-                            <td class="pe-4"><span class="badge-soft badge-success">Reparado</span></td>
-                        </tr>
-                        <tr>
-                            <td class="ps-4 text-muted">#204</td>
-                            <td>Marisol Peña</td>
-                            <td>iPhone 12</td>
-                            <td>Esteban López</td>
-                            <td>01/07/2026</td>
-                            <td class="pe-4"><span class="badge-soft badge-info">En reparación</span></td>
-                        </tr>
+                    <tbody id="tbodyRecientes">
+                        <tr><td colspan="6" class="text-center text-muted py-4">Cargando...</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -140,5 +113,86 @@
     </div>
 
 </div>
+<script src="assets/js/api.js"></script>
+<script>
+    (function () {
+        const empleado = getEmpleadoActual();
+        if (empleado) {
+            const iniciales = (empleado.nombre || "??").split(" ").map(p => p[0]).slice(0,2).join("").toUpperCase();
+            document.getElementById("sidebarAvatar").textContent = iniciales;
+            document.getElementById("sidebarNombre").textContent = empleado.nombre;
+            document.getElementById("sidebarCargo").textContent = empleado.cargo || "";
+        }
+        document.getElementById("btnLogout").addEventListener("click", logout);
+    })();
+
+    const ESTADOS_CERRADOS = ["Entregado", "Devuelto"];
+
+    const badgeEstado = (estado) => {
+        const map = {
+            "En revisión": "badge-secondary",
+            "En reparación": "badge-info",
+            "Esperando piezas": "badge-warning",
+            "Reparado": "badge-success",
+            "Entregado": "badge-success",
+            "Devuelto": "badge-danger"
+        };
+        return `<span class="badge-soft ${map[estado] || "badge-secondary"}">${estado || "Sin estado"}</span>`;
+    };
+
+    async function cargarDashboard() {
+        const tbodyRecientes = document.getElementById("tbodyRecientes");
+        try {
+            const [clientes, empleados, piezas, ordenes, reparaciones] = await Promise.all([
+                api.get("/clientes"),
+                api.get("/empleados"),
+                api.get("/piezas"),
+                api.get("/ordenes"),
+                api.get("/reparaciones")
+            ]);
+
+            
+            document.getElementById("statClientes").textContent = clientes.length;
+            document.getElementById("statEmpleados").textContent = empleados.length;
+
+            const ordenesActivas = reparaciones.filter(r => !ESTADOS_CERRADOS.includes(r.Estado)).length;
+            document.getElementById("statOrdenesActivas").textContent = ordenesActivas;
+
+            
+            const bajoStock = piezas.filter(p => (p.Cantidad ?? 0) <= 3).length;
+            document.getElementById("statBajoStock").textContent = bajoStock;
+
+            
+            const repPorOrden = new Map(reparaciones.map(r => [r.ID_Orden, r]));
+            const recientes = [...ordenes]
+                .sort((a, b) => new Date(b.FechaRecibo) - new Date(a.FechaRecibo))
+                .slice(0, 5);
+
+            if (recientes.length === 0) {
+                tbodyRecientes.innerHTML = '<tr><td colspan="6" class="text-center text-muted py-4">Todavia no hay ordenes registradas.</td></tr>';
+                return;
+            }
+
+            tbodyRecientes.innerHTML = recientes.map(o => {
+                const rep = repPorOrden.get(o.ID_Orden);
+                const tecnico = rep ? `${rep.EmpleadoNombre} ${rep.EmpleadoApellido}` : "Sin asignar";
+                return `
+                    <tr>
+                        <td class="ps-4 text-muted">#${o.ID_Orden}</td>
+                        <td>${o.ClienteNombre} ${o.ClienteApellido}</td>
+                        <td>${o.Dispositivo}</td>
+                        <td>${tecnico}</td>
+                        <td>${formatFecha(o.FechaRecibo)}</td>
+                        <td class="pe-4">${badgeEstado(rep ? rep.Estado : null)}</td>
+                    </tr>`;
+            }).join("");
+        } catch (err) {
+            tbodyRecientes.innerHTML = '<tr><td colspan="6" class="text-center text-danger py-4">No se pudo cargar la información del dashboard.</td></tr>';
+            mostrarError(err);
+        }
+    }
+
+    cargarDashboard();
+</script>
 </body>
 </html>

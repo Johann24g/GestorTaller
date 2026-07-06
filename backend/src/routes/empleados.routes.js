@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
+const bcrypt = require("bcryptjs");
 const { sql, getPool } = require("../db");
+const { requireRole } = require("../middleware/auth");
 
-// GET /api/empleados
+
 router.get("/", async (req, res) => {
     try {
         const pool = await getPool();
@@ -21,7 +23,7 @@ router.get("/", async (req, res) => {
     }
 });
 
-// GET /api/empleados/:id
+
 router.get("/:id", async (req, res) => {
     try {
         const pool = await getPool();
@@ -37,13 +39,14 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-// POST /api/empleados
-router.post("/", async (req, res) => {
+
+router.post("/", requireRole("Administrador"), async (req, res) => {
     try {
         const { Nombre, Apellido, Cedula, Cargo, Usuario, Contrasena } = req.body;
         if (!Nombre || !Apellido || !Cedula || !Usuario || !Contrasena) {
             return res.status(400).json({ error: "Nombre, Apellido, Cedula, Usuario y Contrasena son obligatorios" });
         }
+        const hash = await bcrypt.hash(Contrasena, 10);
         const pool = await getPool();
         const result = await pool.request()
             .input("Nombre", sql.VarChar(50), Nombre)
@@ -51,7 +54,7 @@ router.post("/", async (req, res) => {
             .input("Cedula", sql.VarChar(20), Cedula)
             .input("Cargo", sql.VarChar(20), Cargo || null)
             .input("Usuario", sql.VarChar(50), Usuario)
-            .input("Contrasena", sql.VarChar(50), Contrasena)
+            .input("Contrasena", sql.VarChar(100), hash)
             .query(`INSERT INTO Empleados (Nombre, Apellido, Cedula, Cargo, Usuario, Contrasena)
                     OUTPUT INSERTED.ID_Empleado, INSERTED.Nombre, INSERTED.Apellido, INSERTED.Cedula, INSERTED.Cargo, INSERTED.Usuario, INSERTED.FechaRegistro
                     VALUES (@Nombre, @Apellido, @Cedula, @Cargo, @Usuario, @Contrasena)`);
@@ -64,8 +67,8 @@ router.post("/", async (req, res) => {
     }
 });
 
-// PUT /api/empleados/:id
-router.put("/:id", async (req, res) => {
+
+router.put("/:id", requireRole("Administrador"), async (req, res) => {
     try {
         const { Nombre, Apellido, Cedula, Cargo, Usuario, Contrasena } = req.body;
         const pool = await getPool();
@@ -79,7 +82,8 @@ router.put("/:id", async (req, res) => {
 
         let setContrasena = "";
         if (Contrasena) {
-            request.input("Contrasena", sql.VarChar(50), Contrasena);
+            const hash = await bcrypt.hash(Contrasena, 10);
+            request.input("Contrasena", sql.VarChar(100), hash);
             setContrasena = ", Contrasena = @Contrasena";
         }
 
@@ -98,8 +102,8 @@ router.put("/:id", async (req, res) => {
     }
 });
 
-// DELETE /api/empleados/:id
-router.delete("/:id", async (req, res) => {
+
+router.delete("/:id", requireRole("Administrador"), async (req, res) => {
     try {
         const pool = await getPool();
         const result = await pool.request()

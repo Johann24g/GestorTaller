@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestión de Taller — Iniciar sesión</title>
+<link rel="stylesheet" href="assets/css/lib/bootstrap/bootstrap.min.css">
+<link rel="stylesheet" href="assets/css/lib/bootstrap-icons/bootstrap-icons.min.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+    .login-wrapper {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f4f6f9;
+    }
+    .login-card {
+        width: 100%;
+        max-width: 380px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        padding: 2.2rem 2rem;
+    }
+    .login-logo {
+        width: 48px;
+        height: 48px;
+        border-radius: 10px;
+        background: #185fa5;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+</style>
+</head>
+<body>
+
+<div class="login-wrapper">
+    <div class="login-card">
+        <div class="login-logo">GT</div>
+        <h5 class="fw-semibold mb-1">Gestión de Taller</h5>
+        <p class="text-muted mb-4" style="font-size:14px;">Ingresa con tu usuario y contraseña</p>
+
+        <form id="loginForm">
+            <div class="mb-3">
+                <label class="form-label" for="usuario">Usuario</label>
+                <input type="text" class="form-control" id="usuario" required autofocus>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="contrasena">Contraseña</label>
+                <input type="password" class="form-control" id="contrasena" required>
+            </div>
+            <div id="loginError" class="alert alert-danger py-2 px-3 d-none" style="font-size:13.5px;"></div>
+            <button type="submit" class="btn btn-primary w-100" id="loginBtn">Iniciar sesión</button>
+        </form>
+    </div>
+</div>
+
+<script src="assets/js/api.js"></script>
+<script>
+    const form = document.getElementById("loginForm");
+    const errorBox = document.getElementById("loginError");
+    const loginBtn = document.getElementById("loginBtn");
+
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        errorBox.classList.add("d-none");
+        loginBtn.disabled = true;
+        loginBtn.textContent = "Ingresando...";
+
+        const usuario = document.getElementById("usuario").value.trim();
+        const contrasena = document.getElementById("contrasena").value;
+
+        try {
+            const empleado = await login(usuario, contrasena);
+            localStorage.setItem("empleado", JSON.stringify(empleado));
+            window.location.href = "index.html";
+        } catch (err) {
+            errorBox.textContent = err.message || "No se pudo iniciar sesión";
+            errorBox.classList.remove("d-none");
+        } finally {
+            loginBtn.disabled = false;
+            loginBtn.textContent = "Iniciar sesión";
+        }
+    });
+</script>
+</body>
+</html>

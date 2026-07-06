@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { sql, getPool } = require("../db");
 
-// GET /api/piezas -> incluye cantidad y demanda del stock (si existe)
+
 router.get("/", async (req, res) => {
     try {
         const pool = await getPool();
@@ -19,7 +19,7 @@ router.get("/", async (req, res) => {
     }
 });
 
-// GET /api/piezas/:id
+
 router.get("/:id", async (req, res) => {
     try {
         const pool = await getPool();
@@ -41,7 +41,7 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-// POST /api/piezas -> crea la pieza y opcionalmente su registro de stock
+
 router.post("/", async (req, res) => {
     const { Nombre, Sistema, Marca, Color, Descripcion, PrecioUnitario, Cantidad, Demanda } = req.body;
     if (!Nombre || PrecioUnitario === undefined) {
@@ -84,7 +84,7 @@ router.post("/", async (req, res) => {
     }
 });
 
-// PUT /api/piezas/:id -> actualiza pieza y hace upsert del stock
+
 router.put("/:id", async (req, res) => {
     const { Nombre, Sistema, Marca, Color, Descripcion, PrecioUnitario, Cantidad, Demanda } = req.body;
     try {
@@ -135,7 +135,7 @@ router.put("/:id", async (req, res) => {
     }
 });
 
-// DELETE /api/piezas/:id
+
 router.delete("/:id", async (req, res) => {
     try {
         const pool = await getPool();

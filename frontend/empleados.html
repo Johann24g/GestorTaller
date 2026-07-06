@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
+<script>if(!localStorage.getItem("token")){window.location.href="login.html";}</script>
 <div class="d-flex">
 
     <div id="sidebar">
@@ -27,11 +28,14 @@
             <a class="nav-link sidebar-link active" href="empleados.html"><i class="bi bi-person-badge"></i>Empleados</a>
         </nav>
         <div class="sidebar-footer">
-            <div class="avatar">AR</div>
+            <div class="avatar" id="sidebarAvatar">--</div>
             <div>
-                <div class="name">Andrea Ramírez</div>
-                <div class="role">Administrador</div>
+                <div class="name" id="sidebarNombre">Cargando...</div>
+                <div class="role" id="sidebarCargo"></div>
             </div>
+            <button id="btnLogout" class="btn btn-sm btn-link text-danger ms-auto" title="Cerrar sesión">
+                <i class="bi bi-box-arrow-right"></i>
+            </button>
         </div>
     </div>
 
@@ -52,7 +56,7 @@
                             <i class="bi bi-search"></i>
                             <input type="text" class="form-control form-control-sm" id="searchInput" placeholder="Buscar por nombre o cargo" style="width:220px">
                         </div>
-                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#empleadoModal">
+                        <button class="btn btn-primary btn-sm" id="btnNuevoEmpleado" data-bs-toggle="modal" data-bs-target="#empleadoModal">
                             <i class="bi bi-plus-lg"></i> Nuevo empleado
                         </button>
                     </div>
@@ -68,60 +72,7 @@
                             <th class="pe-4 text-end">Acciones</th>
                         </tr>
                     </thead>
-                    <tbody id="tbody">
-                        <tr>
-                            <td class="ps-4">Andrea Ramírez</td>
-                            <td>402-1111111-1</td>
-                            <td><span class="badge-soft badge-info">Administrador</span></td>
-                            <td>aramirez</td>
-                            <td>10/01/2026</td>
-                            <td class="pe-4">
-                                <div class="row-actions">
-                                    <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#empleadoModal" title="Editar"><i class="bi bi-pencil"></i></button>
-                                    <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="ps-4">Esteban López</td>
-                            <td>402-2222222-2</td>
-                            <td><span class="badge-soft badge-success">Técnico</span></td>
-                            <td>elopez</td>
-                            <td>03/02/2026</td>
-                            <td class="pe-4">
-                                <div class="row-actions">
-                                    <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#empleadoModal" title="Editar"><i class="bi bi-pencil"></i></button>
-                                    <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="ps-4">Eithan Pérez</td>
-                            <td>402-3333333-3</td>
-                            <td><span class="badge-soft badge-success">Técnico</span></td>
-                            <td>eperez</td>
-                            <td>20/02/2026</td>
-                            <td class="pe-4">
-                                <div class="row-actions">
-                                    <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#empleadoModal" title="Editar"><i class="bi bi-pencil"></i></button>
-                                    <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="ps-4">Jean Sánchez</td>
-                            <td>402-4444444-4</td>
-                            <td><span class="badge-soft badge-warning">Recepcionista</span></td>
-                            <td>jsanchez</td>
-                            <td>01/03/2026</td>
-                            <td class="pe-4">
-                                <div class="row-actions">
-                                    <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#empleadoModal" title="Editar"><i class="bi bi-pencil"></i></button>
-                                    <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
+                    <tbody id="tbody"></tbody>
                 </table>
             </div>
 
@@ -130,7 +81,7 @@
 
 </div>
 
-<!-- Modal Empleado -->
+
 <div class="modal fade" id="empleadoModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -184,7 +135,30 @@
 <script src="assets/js/lib/bootstrap/bootstrap.bundle.min.js"></script>
 <script src="assets/js/api.js"></script>
 <script>
+    (function () {
+        const empleado = getEmpleadoActual();
+        if (empleado) {
+            const iniciales = (empleado.nombre || "??").split(" ").map(p => p[0]).slice(0,2).join("").toUpperCase();
+            document.getElementById("sidebarAvatar").textContent = iniciales;
+            document.getElementById("sidebarNombre").textContent = empleado.nombre;
+            document.getElementById("sidebarCargo").textContent = empleado.cargo || "";
+        }
+        document.getElementById("btnLogout").addEventListener("click", logout);
+
+        
+        if (!empleado || empleado.cargo !== "Administrador") {
+            const btnNuevo = document.getElementById("btnNuevoEmpleado");
+            if (btnNuevo) btnNuevo.remove();
+            document.body.classList.add("solo-lectura-empleados");
+        }
+    })();
+</script>
+<style>
+    .solo-lectura-empleados .row-actions { display: none; }
+</style>
+<script>
     const tbody = document.getElementById("tbody");
+    tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted py-4">Cargando empleados...</td></tr>';
     const empleadoModalEl = document.getElementById("empleadoModal");
     const empleadoModal = new bootstrap.Modal(empleadoModalEl);
     const empleadoForm = document.getElementById("empleadoForm");
@@ -220,6 +194,7 @@
             empleadosCache = await api.get("/empleados");
             renderEmpleados(empleadosCache);
         } catch (err) {
+            tbody.innerHTML = '<tr><td colspan="6" class="text-center text-danger py-4">No se pudieron cargar los empleados.</td></tr>';
             mostrarError(err);
         }
     }

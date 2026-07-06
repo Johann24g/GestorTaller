@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { sql, getPool } = require("../db");
 
-// GET /api/reparaciones -> con datos de cliente, empleado y orden
+
 router.get("/", async (req, res) => {
     try {
         const pool = await getPool();
@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
     }
 });
 
-// GET /api/reparaciones/:idOrden
+
 router.get("/:idOrden", async (req, res) => {
     try {
         const pool = await getPool();
@@ -38,7 +38,7 @@ router.get("/:idOrden", async (req, res) => {
     }
 });
 
-// POST /api/reparaciones
+
 router.post("/", async (req, res) => {
     try {
         const { ID_Orden, ID_Cliente, ID_Empleado, Estado, Insumos } = req.body;
@@ -67,7 +67,7 @@ router.post("/", async (req, res) => {
     }
 });
 
-// PUT /api/reparaciones/:idOrden -> normalmente para cambiar Estado / Insumos
+
 router.put("/:idOrden", async (req, res) => {
     try {
         const { ID_Empleado, Estado, Insumos } = req.body;
@@ -92,7 +92,7 @@ router.put("/:idOrden", async (req, res) => {
     }
 });
 
-// DELETE /api/reparaciones/:idOrden
+
 router.delete("/:idOrden", async (req, res) => {
     try {
         const pool = await getPool();

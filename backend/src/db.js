@@ -27,7 +27,7 @@ function getPool() {
                 return pool;
             })
             .catch((err) => {
-                poolPromise = null; // permite reintentar en la siguiente solicitud
+                poolPromise = null; 
                 console.error("Error al conectar a SQL Server:", err.message);
                 throw err;
             });

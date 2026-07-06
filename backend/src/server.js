@@ -2,26 +2,32 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 
+const authRoutes = require("./routes/auth.routes");
 const clientesRoutes = require("./routes/clientes.routes");
 const empleadosRoutes = require("./routes/empleados.routes");
 const ordenesRoutes = require("./routes/ordenes.routes");
 const piezasRoutes = require("./routes/piezas.routes");
 const reparacionesRoutes = require("./routes/reparaciones.routes");
+const { requireAuth } = require("./middleware/auth");
 
 const app = express();
 
-app.use(cors()); // abierto para desarrollo local; restringir origenes en produccion
+app.use(cors()); 
 app.use(express.json());
 
 app.get("/api/health", (req, res) => res.json({ status: "ok" }));
 
-app.use("/api/clientes", clientesRoutes);
-app.use("/api/empleados", empleadosRoutes);
-app.use("/api/ordenes", ordenesRoutes);
-app.use("/api/piezas", piezasRoutes);
-app.use("/api/reparaciones", reparacionesRoutes);
 
-// Manejador de errores no capturados
+app.use("/api/auth", authRoutes);
+
+
+app.use("/api/clientes", requireAuth, clientesRoutes);
+app.use("/api/empleados", requireAuth, empleadosRoutes);
+app.use("/api/ordenes", requireAuth, ordenesRoutes);
+app.use("/api/piezas", requireAuth, piezasRoutes);
+app.use("/api/reparaciones", requireAuth, reparacionesRoutes);
+
+
 app.use((err, req, res, next) => {
     console.error(err);
     res.status(500).json({ error: "Error interno del servidor" });

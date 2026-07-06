@@ -1,9 +1,3 @@
--- Version corregida de tu script original.
--- Unico cambio: Stock.Demanda pasa de INT a VARCHAR(10) para que el CHECK
--- con textos ('Alta','Media','Baja') sea valido.
--- Si tu base ya existe y esta funcionando, NO necesitas correr esto:
--- solo ejecuta el ALTER TABLE que esta al final si te da error en esa columna.
-
 CREATE DATABASE GestionTaller;
 GO
 USE GestionTaller;
@@ -80,7 +74,3 @@ CREATE TABLE Reparaciones (
 );
 GO
 
--- Si tu base YA existe con Demanda como INT, corre esto en su lugar:
--- ALTER TABLE Stock DROP CONSTRAINT <nombre_del_check>; -- revisa el nombre con sp_helpconstraint 'Stock'
--- ALTER TABLE Stock ALTER COLUMN Demanda VARCHAR(10) NOT NULL;
--- ALTER TABLE Stock ADD CONSTRAINT CK_Stock_Demanda CHECK (Demanda IN ('Alta','Media','Baja'));

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { sql, getPool } = require("../db");
 
-// GET /api/clientes  -> listar todos (con filtro opcional ?q=texto)
+
 router.get("/", async (req, res) => {
     try {
         const pool = await getPool();
@@ -21,7 +21,7 @@ router.get("/", async (req, res) => {
     }
 });
 
-// GET /api/clientes/:id -> obtener uno
+
 router.get("/:id", async (req, res) => {
     try {
         const pool = await getPool();
@@ -37,7 +37,7 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-// POST /api/clientes -> crear
+
 router.post("/", async (req, res) => {
     try {
         const { Nombre, Apellido, Cedula, Correo, Telefono, Direccion } = req.body;
@@ -64,7 +64,7 @@ router.post("/", async (req, res) => {
     }
 });
 
-// PUT /api/clientes/:id -> actualizar
+
 router.put("/:id", async (req, res) => {
     try {
         const { Nombre, Apellido, Cedula, Correo, Telefono, Direccion } = req.body;
@@ -95,7 +95,7 @@ router.put("/:id", async (req, res) => {
     }
 });
 
-// DELETE /api/clientes/:id -> eliminar
+
 router.delete("/:id", async (req, res) => {
     try {
         const pool = await getPool();
